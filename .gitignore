@@ -1,6 +1,11 @@
 # Object files
 *.o
 *.ko
+<<<<<<< HEAD
+=======
+*.obj
+*.elf
+>>>>>>> 1c8aeec385a55bee5785d5e36bd6772507bd52da
 
 # Libraries
 *.lib
@@ -16,3 +21,9 @@
 *.exe
 *.out
 *.app
+<<<<<<< HEAD
+=======
+*.i*86
+*.x86_64
+*.hex
+>>>>>>> 1c8aeec385a55bee5785d5e36bd6772507bd52da
