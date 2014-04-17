@@ -23,7 +23,7 @@ void sinet_notify_objects() //TODO
 
 	while(aux != NULL)
 	{
-		aux->data.notify(NULL);
+		aux->data.notify(aux->data.object);
 		aux = aux->next;
 	}
 }
