@@ -24,10 +24,8 @@ sinet_IP_t *sinet_new_IP(const char *ip){
     
     if(i == 0){
       aux[i] = atoi(strtok_r(str, ".", &saved));
-      printf("passei %d %d!\n", i, aux[i]);
     }else{
       aux[i] = atoi(strtok_r(NULL, ".", &saved));
-      printf("passei %d %d!\n", i, aux[i]);
     }
     i++;
   }
@@ -43,15 +41,7 @@ sinet_MAC_t *sinet_new_MAC(const char *mac){
   strcpy(str, mac);
   
   while(i < 4){
-    
-    if(i == 0){
-      aux[i] = atoi(strtok_r(str, ".", &saved));
-      printf("passei %d %d!\n", i, aux[i]);
-    }else{
-      aux[i] = atoi(strtok_r(NULL, ".", &saved));
-      printf("passei %d %d!\n", i, aux[i]);
-    }
-    i++;
+    //TODO
   }
   return aux;
 }
