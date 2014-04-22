@@ -20,21 +20,29 @@
 	typedef uint64_t sinet_MAC_t;
 	sinet_MAC_t *sinet_new_MAC(const char *mac);
 	
-	/* put an static member in the implementation to use in send/recv functions */
-	typedef struct {
-		void *device;
-	} sinet_device_t;
-	void sinet_create_device(sinet_device_type_t device, unsigned char max_ports);
-	void sinet_set_max_ports(sinet_device_t *device, unsigned char max_ports);
-
 	typedef struct {
 		sinet_IP_t ip;
 		unsigned char mask;
 		sinet_IP_t gateway;
 		sinet_MAC_t mac;
-		sinet_device_t device;
+//		sinet_device_t device;
 		void (*run)(void);
 	} sinet_host_t;
+	
+	typedef struct node{
+	  sinet_host_t* host;
+	  struct node* next;
+	}sinet_list_host;
+	
+	/* put an static member in the implementation to use in send/recv functions */
+	typedef struct {
+		void *device;
+		sinet_list_host* list;
+		unsigned char max_ports;
+	} sinet_device_t;
+	void sinet_create_device(sinet_device_type_t device, unsigned char max_ports);
+	void sinet_set_max_ports(sinet_device_t *device, unsigned char max_ports);
+
 	sinet_host_t *sinet_new_host(const char *ip, unsigned char mask, const char *mac);
 	void sinet_set_run(sinet_host_t *host, void (*run)(void));
 	int sinet_connect(sinet_host_t *host);

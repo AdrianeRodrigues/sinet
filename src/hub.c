@@ -1,23 +1,59 @@
-#include "hub.h"
+#include "../include/hub.h"
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 //cria novo host
 sinet_host_t *sinet_new_host(const char *ip, unsigned char mask, const char *mac){
   sinet_host_t * new = malloc(sizeof(sinet_host_t));
-  new->ip = ip;/*fazer cast no ip mask mac*/
+  new->ip = sinet_new_IP(ip);
   new->mask = mask;
-  new->mac = mac;
-//  new->device = hub;
+  new->mac = sinet_new_MAC(mac);
   return new;
 }
 
 sinet_IP_t *sinet_new_IP(const char *ip){
-  //TODO
+  char* str;
+  sinet_IP_t aux[4];
+  char * saved;
+  int i = 0;
+  str =  malloc(sizeof(char) *(strlen(ip) + 1));
+  strcpy(str, ip);
+  
+  while(i < 4){
+    
+    if(i == 0){
+      aux[i] = atoi(strtok_r(str, ".", &saved));
+      printf("passei %d %d!\n", i, aux[i]);
+    }else{
+      aux[i] = atoi(strtok_r(NULL, ".", &saved));
+      printf("passei %d %d!\n", i, aux[i]);
+    }
+    i++;
+  }
+  return aux;
 }
 
 sinet_MAC_t *sinet_new_MAC(const char *mac){
-  //TODO
+  char* str;
+  sinet_MAC_t aux[4];
+  char * saved;
+  int i = 0;
+  str =  malloc(sizeof(char) *(strlen(mac) + 1));
+  strcpy(str, mac);
+  
+  while(i < 4){
+    
+    if(i == 0){
+      aux[i] = atoi(strtok_r(str, ".", &saved));
+      printf("passei %d %d!\n", i, aux[i]);
+    }else{
+      aux[i] = atoi(strtok_r(NULL, ".", &saved));
+      printf("passei %d %d!\n", i, aux[i]);
+    }
+    i++;
+  }
+  return aux;
 }
 
 //cria um device hub
@@ -36,27 +72,29 @@ void sinet_set_max_ports(sinet_device_t *device, unsigned char max_ports) {
 }
 
 int sinet_connect(sinet_host_t *host){
-  if(sinet_nro_portas() <  hub->max_ports){
-    if(hub->list == NULL){
-      sinet_list_host* new = malloc(sizeof(sinet_list_host));
-      new->host = host;
-      new->next = NULL;
-      hub->list = new;
-      return 1;
-    }else if(hub->list != NULL){
+  
+  if(hub->list == NULL){
+    sinet_list_host* new = malloc(sizeof(sinet_list_host));
+    new->host = host;
+    new->next = NULL;
+    hub->list = new;
+    return 1;
+  }else if(hub->list != NULL){
+  
+ //   if(sinet_nro_portas() <  hub->max_ports){
       sinet_list_host* aux = hub->list;
+      
       while(aux->next != NULL)
         aux = aux->next;
-      
+
       sinet_list_host* new = malloc(sizeof(sinet_list_host));
       new->host = host;
       new->next = NULL;
       aux->next = new;
       return 1;
-    }
-    return 0;
+ //   }
   }
-  return -1;//não add na lista pq não tem mais portas
+  return 0;
 }
 
 void sinet_set_run(sinet_host_t *host, void (*run)(void)){
@@ -70,8 +108,11 @@ void sinet_set_gateway(sinet_host_t *host, sinet_IP_t gateway){
 int sinet_nro_portas(){
   int i = 0;
   sinet_list_host* aux = hub->list;
-  while(aux->next != NULL)
+
+  while(aux->next != NULL){
+    aux = aux->next;
     i++;
+  }
   return i;
 }
 
